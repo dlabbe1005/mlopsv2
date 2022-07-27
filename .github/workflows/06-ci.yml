@@ -24,4 +24,4 @@ jobs:
 
     - name: Do anything
       run: |
-            az ml job list
+            az ml job list --resource-group mlops-rg --workspace-name mlw-dev-mlops
