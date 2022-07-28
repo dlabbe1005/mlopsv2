@@ -60,4 +60,4 @@ jobs:
       run: |
         cd src
         az ml online-endpoint create --name diabetes-mlflow-dlabbe --file create-endpoint.yml
-        az ml online-deployment create --name mlflow-deployment --endpoint diabetes-mlflow-dlabbe --file mlflow-deployment.yml --all-trafic
+        az ml online-deployment create --name mlflow-deployment --endpoint diabetes-mlflow-dlabbe --file mlflow-deployment.yml
