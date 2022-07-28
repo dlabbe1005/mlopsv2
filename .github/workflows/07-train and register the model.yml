@@ -41,6 +41,7 @@ jobs:
         az ml model create -n diabetes-data-example -p runs:/dreamy_lime_3b2b53j5fv/model --type mlflow_model
   deploy:
     runs-on: ubuntu-latest
+    needs: train_register
     environment: production
     steps:
     - name: Check out repo
