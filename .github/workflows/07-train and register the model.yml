@@ -58,4 +58,5 @@ jobs:
         az configure --defaults workspace="${{ github.event.inputs.aml_workspace }}"
     - name: Deploy the model
       run: |
-        az ml model list
+        az ml online-endpoint create --name diabetes-mlflow-dlabbe --file create-endpoint.yml
+        az ml online-deployment create --name mlflow-deployment --endpoint diabetes-mlflow-dlabbe --file mlflow-deployment.yml --all-trafic
