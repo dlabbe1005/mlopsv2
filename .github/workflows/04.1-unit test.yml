@@ -18,6 +18,9 @@ jobs:
       uses: actions/checkout@main
       with:
         environment: azureml:AzureML-sklearn-0.24-ubuntu18.04-py37-cpu@latest
+    - name: Specific requirements
+      uses: |
+        python -m pip install requirements.txt
     - name: Install PyTest
       run: |
         python -m pip install pytest
