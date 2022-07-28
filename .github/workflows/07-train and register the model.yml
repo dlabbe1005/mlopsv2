@@ -1,0 +1,62 @@
+name: Train and Register the model in Dev
+
+on:
+  workflow_dispatch:
+    inputs:
+      resource_group:
+        description: 'Resource group name'
+        required: true
+        default: 'mlops-rg' 
+        type: string
+      aml_workspace:
+        description: 'Azure Machine Learning workspace name'
+        required: true
+        default: 'mlw-dev-mlops' 
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: development
+    steps:
+    - name: Check out repo
+      uses: actions/checkout@main
+    - name: Install az ml extension
+      run: az extension add -n ml -y
+    - name: Azure login
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS}}
+    - name: Set Azure ML workspace as default
+      run: |
+        az configure --defaults group="${{ github.event.inputs.resource_group }}"
+        az configure --defaults workspace="${{ github.event.inputs.aml_workspace }}"
+    - name: Submit training run
+      id: diabetes-mlops-challenge
+      run: |
+        cd src
+        az ml job create --file job.yml
+    - name: Registering a model
+      run: |
+        az ml model create -n diabetes-data-example -p runs:/dreamy_lime_3b2b53j5fv/model --type mlflow_model
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+    - name: Check out repo
+      uses: actions/checkout@main
+    - name: Install az ml extension
+      run: az extension add -n ml -y
+    - name: Azure login
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS}}
+    - name: Set Azure ML workspace as default
+      run: |
+        az configure --defaults group="${{ github.event.inputs.resource_group }}"
+        az configure --defaults workspace="${{ github.event.inputs.aml_workspace }}"
+    - name: Registering a model
+      run: |
+        az ml model list
