@@ -1,0 +1,22 @@
+name: Unit Testing
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Unit Testing
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repo
+      uses: actions/checkout@main
+    - name: Use Python version 3.7
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.7'
+    - name: Install PyTest
+      run: |
+        python -m pip install pytest
+    - name: Run unit tests
+      run: | 
+        pytest tests/
