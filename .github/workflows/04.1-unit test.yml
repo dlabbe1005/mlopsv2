@@ -16,7 +16,7 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: '3.8'
-    - name: Install specific requirements
+    - name: Install specific requirements.
       run: |
         python -m pip install -r requirements.txt
     - name: Run unit testing
